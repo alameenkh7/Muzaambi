@@ -22,7 +22,8 @@ class Article{
 }
 
 @Component({
-  selector:'reddit-article',  
+  selector:'reddit-article',
+  inputs:['article'],
   host:{
     class:'row'
   },
@@ -99,7 +100,8 @@ class ArticleComponent{
     <button (click)="addArticle(newtitle, newlink)" class="ui positive right floated button">Submit Link</button>
   </form>
   <div class="ui grid posts">
-    <reddit-article [article]="Myarticle"></reddit-article>
+    <reddit-article *ngFor="#x of articles" [article]="x"></reddit-article>
+
   </div>
   `
 })
