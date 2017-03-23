@@ -2,20 +2,26 @@ import {bootstrap} from "angular2/platform/browser";
 import {Component} from "angular2/core" ;
 
 @Component({
-  selector:'helloworld ',
+  selector:'reddit ',
   template:`
-  <ul>
-  <li *ngFor="#name of names">Hello {{name}}</li>
-  </ul>
+  <form class="ui large form segment">
+    <h3 class="ui header">Add a Link</h3>
+    <div class="field">
+      <label for="title" #newtitle >Title:</label>
+      <input name="title" >
+    </div>
+    <div class="field">
+      <label for="link" #newlink>Link</label>
+      <input name="link">
+    </div>
+    <button (click)="addArticle(newtitle,newtitle)" class="ui positive right floated button">Submit Link</button>
+  </form>
+
   `
 })
 
-class Helloworld{
-  names: string[];
-
-  constructor(){
-    this.names=['ameen','me','kate'];
+class RedditApp{
   }
-}
 
-bootstrap(Helloworld);
+
+bootstrap(RedditApp);
