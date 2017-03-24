@@ -19,6 +19,16 @@ class Article{
   voteDown(){
     this.vote--;
   }
+
+  domain() : string{
+    try{
+      const link: string = this.link.split('//')[1];
+  return link.split('/')[0];
+    }
+    catch (err){
+      return null;
+    }
+  }
 }
 
 @Component({
@@ -41,7 +51,9 @@ class Article{
     <div class="twelve wide column ">
       <a class="ui large header" href="{{article.link}}">
         {{article.title}}
+
       </a>
+      <div class="meta">({{ article.domain() }})</div>
     <ul class="ui big horizontal list voters">
       <li class="item">
         <a href (click)="voteUp()">
@@ -80,6 +92,8 @@ class ArticleComponent{
     return false;
   }
 
+
+
 }
 
 
@@ -98,9 +112,10 @@ class ArticleComponent{
       <input name="link"  #newlink>
     </div>
     <button (click)="addArticle(newtitle, newlink)" class="ui positive right floated button">Submit Link</button>
+
   </form>
   <div class="ui grid posts">
-    <reddit-article *ngFor="#x of articles" [article]="x"></reddit-article>
+    <reddit-article *ngFor="#x of sortedArticle()" [article]="x"></reddit-article>
 
   </div>
   `
@@ -110,15 +125,19 @@ class RedditApp{
   articles : Article[];
   constructor(){
     this.articles=[
-      new Article('Angular2','http://angular.io',10),
-      new Article('Fullstack','http://fulstack.io',2),
-      new Article('Angular Home page','http://angular.io',3)
     ];
   }
 
   addArticle(title: HTMLInputElement,link: HTMLInputElement){
-
+    console.log(title.value,link.value);
+    this.articles.push(new Article(title.value,link.value,0));
+    title.value=link.value='';
   }
+
+  sortedArticle() : Article[]{
+    return this.articles.sort((a:Article,b:Article)=>b.vote-a.vote);
+  }
+
   }
 
 
